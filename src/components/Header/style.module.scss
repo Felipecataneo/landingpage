@@ -151,3 +151,23 @@
         
     }
 }
+@media (max-width: 768px) {
+  .header {
+    .nav {
+      display: none !important; /* Esconde completamente a navegação em dispositivos menores */
+    }
+  
+    .logo {
+      .name {
+        flex-direction: column;
+        align-items: flex-start;
+        
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  
+
+}

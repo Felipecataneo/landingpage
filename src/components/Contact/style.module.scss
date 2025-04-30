@@ -128,3 +128,23 @@
     }
     
 }
+@media (max-width: 768px) {
+  .title {
+    margin-left: 20px;
+    margin-right: 20px;
+    
+    h2 {
+      font-size: 8vw;
+    }
+  }
+  
+  .nav, .info {
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .buttonContainer {
+    display: none;
+  }
+}

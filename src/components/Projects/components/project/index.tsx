@@ -2,16 +2,16 @@
 import React from 'react';
 import styles from './style.module.scss';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface ProjectProps {
     index: number;
     title: string;
     manageModal: (active: boolean, index: number, x: number, y: number) => void;
-    src?: string;
+    onTouchStart?: () => void;
+    onTouchEnd?: () => void;
 }
 
-export default function Project({ index, title, manageModal }: ProjectProps) {
+export default function Project({ index, title, manageModal, onTouchStart, onTouchEnd }: ProjectProps) {
     return (
         <Link 
             href="/" 
@@ -22,6 +22,8 @@ export default function Project({ index, title, manageModal }: ProjectProps) {
             onMouseLeave={(e) => {
                 manageModal(false, index, e.clientX, e.clientY);
             }}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
         >
             <div className={styles.projectTitle}>
                 <h2>{title}</h2>

@@ -35,4 +35,43 @@
             transform: translateX(10px);
         }
     }
+    
+    /* Media queries para responsividade */
+    @media screen and (max-width: 1200px) {
+        padding: 40px 60px;
+        
+        h2 {
+            font-size: 48px;
+        }
+    }
+    
+    @media screen and (max-width: 768px) {
+        padding: 30px 40px;
+        
+        h2 {
+            font-size: 36px;
+        }
+    }
+    
+    @media screen and (max-width: 480px) {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        
+        h2 {
+            font-size: 28px;
+        }
+        
+        .projectTitle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+}
+
+/* Estilos específicos para o título do projeto */
+.projectTitle {
+    display: flex;
+    flex-direction: column;
 }
