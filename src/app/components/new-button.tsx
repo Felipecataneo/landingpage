@@ -12,7 +12,6 @@ export function NewButton({ className }: { className?: string }) {
 		setHistory,
 		setHistoryIndex,
 		setCurrentHtml,
-		setSessionId,
 		setMode,
 		setCurrentFeedback,
 		resetStreamingState,
@@ -25,7 +24,6 @@ export function NewButton({ className }: { className?: string }) {
 		setHistory([]);
 		setHistoryIndex(-1);
 		setCurrentHtml("");
-		setSessionId(uuidv4());
 		setMode("query");
 		setCurrentFeedback("");
 		resetStreamingState();
