@@ -25,7 +25,7 @@ const ModelSelector = ({
     return options[0];
   });
   const [dropdownPosition, setDropdownPosition] = useState("right");
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Update selectedModel when initialModel changes externally
   useEffect(() => {
@@ -64,8 +64,8 @@ const ModelSelector = ({
 
   // Close dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
