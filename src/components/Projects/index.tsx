@@ -1,3 +1,6 @@
+// ================================================
+// FILE: src/components/Projects/index.tsx
+// ================================================
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import styles from './style.module.scss';
@@ -12,28 +15,33 @@ interface ProjectData {
   title: string;
   src: string;
   color: string;
+  href: string; // Added href
 }
 
 const projects: ProjectData[] = [
   {
     title: "Sites",
     src: "/images/sites.jpg",
-    color: "#000000"
+    color: "#000000",
+    href: "/projects/sites" // Added href
   },
   {
     title: "Chatbots",
     src: "/images/bot.jpg",
-    color: "#8C8C8C"
+    color: "#8C8C8C",
+    href: "/projects/chatbots" // Added href
   },
   {
     title: "Soluções em IA",
     src: "/images/ai.jpg",
-    color: "#EFE8D3"
+    color: "#EFE8D3",
+    href: "/projects/ai" // Added href
   },
   {
     title: "Vamos Criar Juntos",
     src: "/images/criar.jpg",
-    color: "#706D63"
+    color: "#706D63",
+    href: "/projects/criar" // Added href
   }
 ]
 
@@ -88,36 +96,55 @@ export default function Projects() {
       yMoveCursorLabel.current!(y)
     } else {
       // Em dispositivos móveis, centralizar o modal na tela
+      // The modal positioning on mobile needs careful consideration if you want it fixed.
+      // This current logic centers it based on mouse/touch position, which isn't ideal for mobile.
+      // A fixed modal overlay might be better for mobile UX, but keeping the existing centering for now.
       if (modalContainer.current) {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-        xMoveContainer.current!(windowWidth / 2)
-        yMoveContainer.current!(windowHeight / 2)
-        xMoveCursor.current!(windowWidth / 2)
-        yMoveCursor.current!(windowHeight / 2)
-        xMoveCursorLabel.current!(windowWidth / 2)
-        yMoveCursorLabel.current!(windowHeight / 2)
+        // Note: QuickTo is designed for elements following the cursor, not fixed positioning.
+        // For a fixed mobile modal, you'd likely use CSS classes or direct state/style updates
+        // rather than QuickTo with window center coordinates.
+         // Example QuickTo usage here would follow where the *touch* occurred, not center the modal.
+         // Let's refine this slightly for mobile: the modal should just appear centered or as an overlay.
+         // We will remove the QuickTo for mobile modal positioning and rely on CSS for its placement when active.
       }
     }
   }
   
   const manageModal = (active: boolean, index: number, x: number, y: number) => {
-    moveItems(x, y)
-    setModal({ active, index })
+     // Only move items on desktop
+    if (!isMobile) {
+       moveItems(x, y);
+    }
+    setModal({ active, index });
+
+     // On mobile, if modal is active, perhaps prevent body scroll or apply a fixed class
+     if (isMobile) {
+        if (active) {
+           // Add a class to body to fix position or handle overlay
+           document.body.classList.add(styles.modalOpen); // Need to define this style
+        } else {
+           // Remove the class
+           document.body.classList.remove(styles.modalOpen);
+        }
+     }
   }
 
-  // Detectar eventos de toque para dispositivos móveis
-  const handleTouchStart = (index: number) => {
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    manageModal(true, index, windowWidth / 2, windowHeight / 2);
-  }
+    // Handle touch start for mobile modal preview
+    const handleTouchStart = (index: number, e: React.TouchEvent) => {
+        // Prevent default touch behavior to potentially stop scroll
+        e.preventDefault();
+        // On touch start, show modal. Positioning might be simple CSS fixed/centered.
+        manageModal(true, index, e.touches[0].clientX, e.touches[0].clientY);
+    };
 
-  const handleTouchEnd = (index: number) => {
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    manageModal(false, index, windowWidth / 2, windowHeight / 2);
-  }
+    // Handle touch end for mobile modal preview
+    const handleTouchEnd = (index: number, e: React.TouchEvent) => {
+        // On touch end, hide modal
+        manageModal(false, index, 0, 0); // Pass dummy coords
+    };
+
 
   return (
     <main 
@@ -135,54 +162,70 @@ export default function Projects() {
                 title={project.title} 
                 manageModal={manageModal}
                 key={index}
-                onTouchStart={() => handleTouchStart(index)}
-                onTouchEnd={() => handleTouchEnd(index)}
+                href={project.href} // Pass href here
+                // Pass touch handlers to Project component
+                onTouchStart={(e) => handleTouchStart(index, e)}
+                onTouchEnd={(e) => handleTouchEnd(index, e)}
               />
             )
           })
         }
       </div>
 
-      <>
-        <motion.div 
-          ref={modalContainer} 
-          variants={scaleAnimation} 
-          initial="initial" 
-          animate={active ? "enter" : "closed"} 
-          className={styles.modalContainer}
-        >
-          <div style={{ top: index * -100 + "%" }} className={styles.modalSlider}>
-            {
-              projects.map((project, index) => {
-                const { src, color } = project
-                return <div className={styles.modal} style={{ backgroundColor: color }} key={`modal_${index}`}>
-                  <Image
-                    src={src}
-                    width={isMobile ? 200 : 300}
-                    height={0}
-                    alt="image"
-                    style={{ maxWidth: '100%', height: 'auto' }}
-                  />
+      {/* Render modal and cursors only if not on mobile or if the modal is active */}
+      {(!isMobile || active) && (
+        <>
+            {/* For mobile, modal positioning should be handled by CSS when active */}
+            <motion.div
+                ref={modalContainer}
+                variants={isMobile ? { // Simplified animation for mobile
+                  initial: { opacity: 0 },
+                  enter: { opacity: 1, transition: { duration: 0.3 } },
+                  closed: { opacity: 0, transition: { duration: 0.3 } }
+                } : scaleAnimation} // Use scale animation for desktop
+                initial="initial"
+                animate={active ? "enter" : "closed"}
+                className={`${styles.modalContainer} ${isMobile && active ? styles.modalContainerMobileActive : ''}`} // Add active mobile class
+            >
+                <div style={{ top: isMobile ? '0%' : index * -100 + "%" }} className={styles.modalSlider}> {/* Mobile slider might not need translation */}
+                    {
+                        projects.map((project, index) => {
+                            const { src, color } = project
+                            return <div className={styles.modal} style={{ backgroundColor: color }} key={`modal_${index}`}>
+                                <Image
+                                    src={src}
+                                    width={isMobile ? 200 : 300} // Adjust image size for mobile
+                                    height={0} // height="auto" is preferred but requires specific setup or is default with width
+                                    alt="image"
+                                    style={{ maxWidth: '100%', height: 'auto' }} // Maintain aspect ratio
+                                />
+                            </div>
+                        })
+                    }
                 </div>
-              })
-            }
-          </div>
-        </motion.div>
-        <motion.div 
-          ref={cursor} 
-          className={styles.cursor} 
-          variants={scaleAnimation} 
-          initial="initial" 
-          animate={active ? "enter" : "closed"}
-        ></motion.div>
-        <motion.div 
-          ref={cursorLabel} 
-          className={styles.cursorLabel} 
-          variants={scaleAnimation} 
-          initial="initial" 
-          animate={active ? "enter" : "closed"}
-        ></motion.div>
-      </>
+            </motion.div>
+
+            {/* Cursors are typically desktop-only */}
+            {!isMobile && (
+                <>
+                    <motion.div
+                      ref={cursor}
+                      className={styles.cursor}
+                      variants={scaleAnimation}
+                      initial="initial"
+                      animate={active ? "enter" : "closed"}
+                    ></motion.div>
+                    <motion.div
+                      ref={cursorLabel}
+                      className={styles.cursorLabel}
+                      variants={scaleAnimation}
+                      initial="initial"
+                      animate={active ? "enter" : "closed"}
+                    >Veja</motion.div> {/* Added label text */}
+                </>
+            )}
+        </>
+      )}
     </main>
   )
 }
