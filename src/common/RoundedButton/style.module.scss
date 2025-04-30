@@ -6,12 +6,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 60px 15px 60px;
+    padding: 15px 60px;
+    overflow: hidden;
+    width: fit-content;
 
     p{
         position: relative;
         z-index: 1;
         transition: color 0.4s linear;
+        margin: 0;
     }
 
     &:hover{

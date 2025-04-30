@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import styles from './style.module.scss';
 import Image from 'next/image';
@@ -41,51 +41,75 @@ const slider2 = [
     }
 ]
 
-export default function index() {
-
+export default function SlidingImages() {
+    const [isMobile, setIsMobile] = useState(false);
     const container = useRef(null);
+    
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+        };
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: container,
         offset: ["start end", "end start"]
-    })
+    });
 
-    const x1 = useTransform(scrollYProgress, [0, 1], [0, 150])
-    const x2 = useTransform(scrollYProgress, [0, 1], [0, -150])
-    const height = useTransform(scrollYProgress, [0, 0.9], [50, 0])
+    // Adjust the amount of movement based on screen size
+    const x1Value = isMobile ? 100 : 150;
+    const x2Value = isMobile ? -100 : -150;
+    
+    const x1 = useTransform(scrollYProgress, [0, 1], [0, x1Value]);
+    const x2 = useTransform(scrollYProgress, [0, 1], [0, x2Value]);
+    const height = useTransform(scrollYProgress, [0, 0.9], [isMobile ? 30 : 50, 0]);
 
     return (
         <div ref={container} className={styles.slidingImages}>
             <motion.div style={{x: x1}} className={styles.slider}>
-                    {
-                        slider1.map( (project, index) => {
-                            return <div key={index} className={styles.project} style={{backgroundColor: project.color}} >
+                {
+                    slider1.map((project, index) => {
+                        return (
+                            <div key={index} className={styles.project} style={{backgroundColor: project.color}}>
                                 <div className={styles.imageContainer}>
                                     <Image 
-                                    fill={true}
-                                    alt={"image"}
-                                    src={`/images/${project.src}`}/>
+                                        fill={true}
+                                        alt={"image"}
+                                        src={`/images/${project.src}`}
+                                    />
                                 </div>
                             </div>
-                        })
-                    }
-                </motion.div>
-                <motion.div style={{x: x2}} className={styles.slider}>
-                    {
-                        slider2.map( (project, index) => {
-                            return <div key={index} className={styles.project} style={{backgroundColor: project.color}} >
-                                <div key={index} className={styles.imageContainer}>
+                        );
+                    })
+                }
+            </motion.div>
+            <motion.div style={{x: x2}} className={styles.slider}>
+                {
+                    slider2.map((project, index) => {
+                        return (
+                            <div key={index} className={styles.project} style={{backgroundColor: project.color}}>
+                                <div className={styles.imageContainer}>
                                     <Image 
-                                    fill={true}
-                                    alt={"image"}
-                                    src={`/images/${project.src}`}/>
+                                        fill={true}
+                                        alt={"image"}
+                                        src={`/images/${project.src}`}
+                                    />
                                 </div>
                             </div>
-                        })
-                    }
-                </motion.div>
-                <motion.div style={{height}} className={styles.circleContainer}>
-                    <div className={styles.circle}></div>
-                </motion.div>
+                        );
+                    })
+                }
+            </motion.div>
+            <motion.div style={{height}} className={styles.circleContainer}>
+                <div className={styles.circle}></div>
+            </motion.div>
         </div>
-    )
+    );
 }
