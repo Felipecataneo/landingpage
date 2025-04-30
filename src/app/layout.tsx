@@ -1,7 +1,15 @@
+// ================================================
+// FILE: src/app/layout.tsx (Remove theme switching)
+// ================================================
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from '@/components/Header';
+
+// REMOVE: import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "react-hot-toast";
+// REMOVE: import { LayoutClientContent } from "@/components/layout-client-content";
+// REMOVE: import { ModeToggle } from "@/components/mode-toggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,12 +46,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // REMOVE: ThemeProvider and suppressHydrationWarning
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
-        {children}
+        {children} {/* Your page content renders here */}
+
+        {/* REMOVE: ModeToggle positioning div */}
+
+        {/* Keep Toaster */}
+        <Toaster position="bottom-right" />
+
+        {/* Keep your existing footer or remove if desired */}
+        {/* Example: <footer className="...">...</footer> */}
+
       </body>
     </html>
   );
