@@ -12,8 +12,8 @@ export function MicrophoneButton({
 	disabled,
 }: MicrophoneButtonProps) {
 	const [isRecording, setIsRecording] = useState(false);
-	const mediaRecorder = useRef(null);
-	const audioChunks = useRef([]);
+	const mediaRecorder = useRef<MediaRecorder | null>(null);
+	const audioChunks = useRef<Blob[]>([]);
 
 	const startRecording = async () => {
 		try {
@@ -21,7 +21,7 @@ export function MicrophoneButton({
 			mediaRecorder.current = new MediaRecorder(stream);
 			audioChunks.current = [];
 
-			mediaRecorder.current.ondataavailable = (event) => {
+			mediaRecorder.current.ondataavailable = (event: BlobEvent) => {
 				audioChunks.current.push(event.data);
 			};
 
