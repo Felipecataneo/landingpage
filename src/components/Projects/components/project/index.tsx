@@ -53,6 +53,7 @@ export default function Project({ index, title, manageModal, href, onTouchStart,
     };
 
     return (
+        
         <Link
             href={href}
             className={`${styles.project} ${previewShown ? styles.previewActive : ''}`}

@@ -82,7 +82,7 @@ const ModelSelector = ({
         className="flex items-center justify-end gap-2 cursor-pointer bg-transparent hover:bg-accent hover:text-accent-foreground
 rounded-lg p-2 transition-colors"
       >
-        <span className="text-black dark:text-white text-right">{selectedModel}</span>
+        <span className="text-white dark:text-white text-right">{selectedModel}</span>
         <ChevronDown
           className={`w-5 h-5 transition-transform ${isOpen ? "rotate-180" : ""} text-black dark:text-white`}
         />

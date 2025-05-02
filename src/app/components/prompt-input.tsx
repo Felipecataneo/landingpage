@@ -53,7 +53,7 @@ export function PromptInput() {
 				}
 				className="flex-1 p-2 border-0 rounded focus:border-0 focus:ring-0 focus-visible:ring-0 focus-visible:border-0"
 				placeholder={
-					mode === "query" ? "Describe your app..." : "Enter your feedback..."
+					mode === "query" ? "Descreva seu site..." : "Dê seu feedback..."
 				}
 				onKeyDown={(e) => {
 					if (e.key === "Enter" && !e.shiftKey) {

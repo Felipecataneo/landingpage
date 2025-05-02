@@ -28,11 +28,11 @@ export function SubmitButton() {
 			<span className="hidden lg:inline">
 				{mode === "query"
 					? isGenerating
-						? "Generating..."
-						: "Generate"
+						? "Gerando..."
+						: "Gerar"
 					: isApplying
-						? "Applying..."
-						: "Apply Edit"}
+						? "Editando..."
+						: "Editar"}
 			</span>
 			<span className="lg:hidden">
 				{mode === "query" ? (

@@ -82,7 +82,7 @@ export function MicrophoneButton({
 				variant="ghost"
 				size="icon"
 				className={`rounded-full relative z-10 ${
-					isRecording ? "text-orange-500 hover:text-orange-600" : ""
+					isRecording ? "text-white-500 hover:text-white-600" : ""
 				}`}
 				onClick={toggleRecording}
 			>

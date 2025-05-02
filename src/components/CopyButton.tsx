@@ -26,7 +26,8 @@ export function CopyButton({ code }: CopyButtonProps) {
             variant="outline"
             size="icon"
             // You can add a simple title for native tooltips
-            title={copied ? "Copied!" : "Copy code"}
+            title={copied ? "Copiado" : "Copy code"}
+            className="relative text-gray-500 hover:text-gray-700 transition-colors duration-200"
         >
             <IoCopyOutline size={20} />
             {/* Optional: Add a visual indicator next to the button */}

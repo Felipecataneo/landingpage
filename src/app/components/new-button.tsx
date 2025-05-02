@@ -46,7 +46,7 @@ export function NewButton({ className }: { className?: string }) {
 				onClick={handleClick}
 			>
 				<Plus size={16} />
-				<span>New</span>
+				<span>Novo</span>
 			</Button>
 		</>
 	);

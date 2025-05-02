@@ -23,19 +23,19 @@ export function VersionSwitcher({
 				size="icon"
 				onClick={onPrevious}
 				disabled={currentVersion <= 1}
-				aria-label="Previous version"
+				aria-label="Versões anteriores"
 			>
 				<ChevronLeft size={20} />
 			</Button>
 			<span className="text-sm dark:text-gray-400 text-gray-600 min-w-[80px] text-center">
-				Version {currentVersion} of {totalVersions}
+				Versão {currentVersion} de {totalVersions}
 			</span>
 			<Button
 				variant="ghost"
 				size="icon"
 				onClick={onNext}
 				disabled={currentVersion >= totalVersions}
-				aria-label="Next version"
+				aria-label="Próxima Versão"
 			>
 				<ChevronRight size={20} />
 			</Button>

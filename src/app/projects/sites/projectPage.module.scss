@@ -1,56 +1,90 @@
-
-.projectDetailPage {
-  padding: 150px 40px 80px 40px; // Adjust padding to account for header
-  max-width: 1200px;
-  margin: 0 auto;
-  color: var(--foreground); // Use colors from globals.css
-  min-height: 100vh; // Ensure page takes at least full viewport height
-
-  .title {
-    font-size: 3em;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .description {
-    font-size: 1.2em;
-    line-height: 1.6;
-    margin-bottom: 40px;
-    text-align: center;
-  }
-
-  .imageContainer {
-     display: flex;
-     justify-content: center;
-     margin-bottom: 40px;
-  }
-
-  .projectImage {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px; // Optional: add some styling
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: add some styling
-  }
-
-  // Add more styles for other sections (e.g., features, technologies, etc.)
-
-  @media (max-width: 768px) {
-     padding-top: 120px;
-     .title {
-        font-size: 2em;
-     }
-     .description {
-        font-size: 1em;
-     }
-  }
-
-  @media (max-width: 480px) {
-     padding-top: 100px;
-     .title {
-        font-size: 1.5em;
-     }
-     .description {
-        font-size: 0.9em;
-     }
-  }
-}
+.projectDetailPageWrapper {
+   background: linear-gradient(to bottom right, #111827, #000000, #1f2937);
+   background-size: cover;
+   width: 100vw;
+   min-height: 100vh;
+   overflow: hidden;
+   position: relative;
+   display: flex;
+   align-items: center;
+ 
+   &::before,
+   &::after {
+     content: '';
+     position: absolute;
+     top: -50%;
+     left: -50%;
+     width: 200%;
+     height: 200%;
+     background: radial-gradient(circle at top left, rgba(13, 255, 255, 0.05), transparent),
+                 radial-gradient(circle at bottom right, rgba(192, 132, 252, 0.05), transparent);
+     animation: pulse 8s infinite ease-in-out;
+     opacity: 0.4;
+     pointer-events: none;
+     z-index: 0;
+   }
+ }
+ 
+ @keyframes pulse {
+   0%, 100% {
+     transform: scale(1);
+     opacity: 0.4;
+   }
+   50% {
+     transform: scale(1.03);
+     opacity: 0.2;
+   }
+ }
+ 
+ .projectDetailPage {
+   position: relative;
+   z-index: 1;
+   padding: 8rem 2rem 5rem;
+   max-width: 1200px;
+   margin: 0 auto;
+   color: #ffffff;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+ }
+ 
+ .title {
+   font-size: clamp(2rem, 5vw, 3.5rem);
+   margin-bottom: 2rem;
+   font-weight: 700;
+   letter-spacing: 1px;
+   color: #ffffff;
+ }
+ 
+ .description {
+   font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+   line-height: 1.8;
+   margin-bottom: 4rem;
+   color: #e5e7eb;
+   max-width: 900px;
+   text-align: justify;
+ }
+ 
+ .imageContainer {
+   display: flex;
+   justify-content: center;
+   margin-bottom: 2.5rem;
+ }
+ 
+ .projectImage {
+   max-width: 100%;
+   max-height: 400px;
+   height: auto;
+   border-radius: 0.5rem;
+   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+   object-fit: contain;
+ }
+ 
+ /* Responsividade adicional, se necessário */
+ @media (max-width: 480px) {
+   .projectDetailPage {
+     padding-top: 6rem;
+   }
+ }
+ 

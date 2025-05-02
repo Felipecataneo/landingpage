@@ -3,6 +3,7 @@ import { useInView, motion, Variants } from 'framer-motion';
 import { useRef } from 'react';
 import { slideUp, opacity } from './animation';
 import Rounded from '../../common/RoundedButton';
+import Link from 'next/link';
 
 export default function index() {
 
@@ -31,9 +32,11 @@ export default function index() {
                     animate={isInView ? "open" : "closed"}
                 ></motion.p>
                 <div data-scroll data-scroll-speed={0.1}>
+                    <Link href="/about">
                     <Rounded className={styles.button}>
                         <p>Sobre nós</p>
                     </Rounded>
+                    </Link>
                 </div>
             </div>
         </div>

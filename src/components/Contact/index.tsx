@@ -4,10 +4,15 @@ import Image from 'next/image';
 import Rounded from '../../common/RoundedButton';
 import { useScroll, motion, useTransform } from 'framer-motion';
 import Magnetic from '../../common/Magnetic';
+import ParticleEffect from './ParticleEffect'; 
 
 export default function Contact() {
     const [isMobile, setIsMobile] = useState(false);
     const container = useRef(null);
+    const [showParticlesEmail, setShowParticlesEmail] = useState(false);
+    const [showParticlesPhone, setShowParticlesPhone] = useState(false);
+    const [particlePosEmail, setParticlePosEmail] = useState({ x: 0, y: 0 });
+    const [particlePosPhone, setParticlePosPhone] = useState({ x: 0, y: 0 });
     
     useEffect(() => {
         const checkMobile = () => {
@@ -35,6 +40,38 @@ export default function Contact() {
     const x = useTransform(scrollYProgress, [0, 1], [0, xValue]);
     const y = useTransform(scrollYProgress, [0, 1], [yStartValue, 0]);
     const rotate = useTransform(scrollYProgress, [0, 1], [rotateStartValue, 90]);
+
+    // email logic compartilhado
+    const sendEmail = () => {
+        window.location.href = "mailto:felipecataneo@hotmail.com";
+    };
+    
+    // cada botão controla a partícula de forma independente
+    const handleEmailClickTop = (e: React.MouseEvent) => {
+        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        setParticlePosEmail({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        setShowParticlesEmail(true);
+        setTimeout(() => setShowParticlesEmail(false), 900);
+        sendEmail();
+    };
+    
+    const handleEmailClickNav = (e: React.MouseEvent) => {
+        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        setParticlePosEmail({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        setShowParticlesEmail(true);
+        setTimeout(() => setShowParticlesEmail(false), 900);
+        sendEmail();
+    };
+  
+    
+    const handlePhoneClick = (e: React.MouseEvent) => {
+        const rect = (e.target as HTMLElement).getBoundingClientRect();
+        setParticlePosPhone({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        setShowParticlesPhone(true);
+        setTimeout(() => setShowParticlesPhone(false), 900);
+        window.location.href = "https://wa.me/5518981168691";
+    };
+    
     
     return (
         <motion.div 
@@ -56,9 +93,16 @@ export default function Contact() {
                     </span>
                     <h2>juntos!</h2>
                     <motion.div style={{ x }} className={styles.buttonContainer}>
-                        <Rounded backgroundColor={"#0F4C5C"} className={styles.button}>
+                        <div className="relative" onClick={handleEmailClickTop}>
+                            <Rounded backgroundColor={"#0F4C5C"} className={styles.button}>
                             <p>Entre em contato</p>
-                        </Rounded>
+                            </Rounded>
+                            <ParticleEffect
+                            color="#0F4C5C"
+                            active={showParticlesEmail}
+                            position={particlePosEmail}
+                            />
+                        </div>
                     </motion.div>
                     {!isMobile && (
                         <motion.svg 
@@ -74,13 +118,29 @@ export default function Contact() {
                     )}
                 </div>
                 <div className={styles.nav}>
-                    <Rounded>
+                    <div className="relative" onClick={handleEmailClickNav}>
+                        <Rounded>
                         <p>felipecataneo@hotmail.com</p>
-                    </Rounded>
-                    <Rounded>
+                        </Rounded>
+                        <ParticleEffect
+                        color="#0F4C5C"
+                        active={showParticlesEmail}
+                        position={particlePosEmail}
+                        />
+                    </div>
+
+                    <div className="relative" onClick={handlePhoneClick}>
+                        <Rounded>
                         <p>+55 (18)981168691</p>
-                    </Rounded>
+                        </Rounded>
+                        <ParticleEffect
+                        color="#0F4C5C"
+                        active={showParticlesPhone}
+                        position={particlePosPhone}
+                        />
+                    </div>
                 </div>
+
                 <div className={styles.info}>
                     <div>
                         <span>
@@ -92,8 +152,16 @@ export default function Contact() {
                         <span>
                             <h3>Rede Social</h3>
                             <Magnetic>
-                                <p>Linkedin</p>
+                                <a
+                                    href="https://www.linkedin.com/in/felipe-biava-cataneo-b66a7625/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ textDecoration: "none", color: "inherit" }}
+                                >
+                                    <p>Linkedin</p>
+                                </a>
                             </Magnetic>
+
                         </span>
                     </div>
                 </div>
