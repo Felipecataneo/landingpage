@@ -146,6 +146,7 @@ export default function Projects() {
         if (!isMobile) moveItems(e.clientX, e.clientY) 
       }} 
       className={styles.projects}
+      id="projects"
     >
       <div className={styles.body}>
         {

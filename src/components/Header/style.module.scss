@@ -1,7 +1,7 @@
 .header{
     position: absolute;
     display: flex;
-    z-index: 1;
+    z-index: 100; /* Valor muito elevado para garantir que fique por cima de tudo */
     top: 0;
     color: white;
     padding: 35px;
@@ -10,6 +10,15 @@
     font-weight: 300;
     box-sizing: border-box;
     align-items: center;
+    
+    /* Adicionar um efeito de sombra sutil para melhorar a legibilidade em qualquer fundo */
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+    
+    /* Opcionalmente, adicionar um fundo gradiente transparente para melhorar a visibilidade */
+    &.headerOtherPages {
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+        backdrop-filter: blur(2px); /* Efeito de desfoque para melhorar contraste (funciona na maioria dos navegadores modernos) */
+    }
     
     .logo{
         display: flex;
@@ -94,11 +103,24 @@
         }
     } 
 }
+
 .headerButtonContainer{
     transform: scale(0);
     position: fixed;
     right: 0px;
-    z-index: 4;
+    top: 0px; /* Fixar no topo */
+    z-index: 200; /* Valor ainda mais elevado para garantir que fique acima de tudo */
+    
+    /* Adicionar transição para suavizar aparecimento/desaparecimento */
+    transition: transform 0.25s ease-out;
+    
+    /* Em páginas que não são a principal, ou em mobile */
+    &.otherPage {
+        /* Regra específica para dispositivos móveis */
+        @media (max-width: 768px) {
+            transform: scale(1) !important; /* Usar !important para garantir */
+        }
+    }
 
     .button{
         position: relative;
@@ -111,6 +133,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        
+        /* Adicionar uma sombra para destacar contra qualquer fundo */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
     
     .burger{
@@ -151,8 +176,11 @@
         
     }
 }
+
 @media (max-width: 768px) {
   .header {
+    padding: 20px; /* Reduzir padding em dispositivos móveis */
+    
     .nav {
       display: none !important; /* Esconde completamente a navegação em dispositivos menores */
     }
@@ -169,5 +197,8 @@
     }
   }
   
-
+  /* Garantir que o botão hambúrguer esteja sempre visível em dispositivos móveis */
+  .headerButtonContainer {
+    transform: scale(1) !important;
+  }
 }

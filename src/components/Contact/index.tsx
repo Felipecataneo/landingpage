@@ -78,6 +78,7 @@ export default function Contact() {
             style={{ y }} 
             ref={container} 
             className={styles.contact}
+            id="contact"
         >
             <div className={styles.body}>
                 <div className={styles.title}>
