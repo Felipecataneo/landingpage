@@ -118,7 +118,7 @@
     &.otherPage {
         /* Regra específica para dispositivos móveis */
         @media (max-width: 768px) {
-            transform: scale(1) !important; /* Usar !important para garantir */
+            transform: scale(1) ; /* Usar !important para garantir */
         }
     }
 
@@ -199,6 +199,6 @@
   
   /* Garantir que o botão hambúrguer esteja sempre visível em dispositivos móveis */
   .headerButtonContainer {
-    transform: scale(1) !important;
+    transform: scale(1) ;
   }
 }
