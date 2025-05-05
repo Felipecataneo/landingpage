@@ -1,6 +1,4 @@
-// app/components HorizontalScroll;.tsx (ou seu diretório preferido)
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,23 +6,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const slides = [
-  {
-    image: "/site1.jpg",
-    title: "Presença digital com propósito",
-  },
-  {
-    image: "/site2.jpg",
-    title: "Design que comunica.",
-  },
-  {
-    image: "/site3.jpg",
-    title: "Resultados que aparecem.",
-  },
+  { image: "/site1.jpg", title: "Presença digital com propósito" },
+  { image: "/site2.jpg", title: "Design que comunica." },
+  { image: "/site3.jpg", title: "Resultados que aparecem." },
 ];
 
 function isMobile() {
   if (typeof window === "undefined") return false;
-  return window.innerWidth < 768; // breakpoint do tailwind para sm/md
+  return window.innerWidth < 768;
 }
 
 const HorizontalScroll: React.FC = () => {
@@ -38,15 +27,13 @@ const HorizontalScroll: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (mobile) {
-      // Garante que todos os títulos estejam visíveis no mobile
-      const titles = document.querySelectorAll(".hero-title");
-      titles.forEach(title => {
-        (title as HTMLElement).style.opacity = "1";
-        (title as HTMLElement).style.transform = "translateY(0)";
-      });
-      return;
+    if (typeof window !== "undefined" && mobile) {
+      window.scrollTo(0, 0);
     }
+  }, [mobile]);
+
+  useEffect(() => {
+    if (mobile) return;
 
     const container = containerRef.current;
     if (!container) return;
@@ -79,7 +66,7 @@ const HorizontalScroll: React.FC = () => {
           scrollTrigger: {
             trigger: section,
             containerAnimation: scrollTween,
-            start: "left center",
+            start: "left center", 
             end: "right center",
             scrub: true,
           },
@@ -97,7 +84,7 @@ const HorizontalScroll: React.FC = () => {
       ref={containerRef}
       className={
         mobile
-          ? "flex flex-col w-screen h-auto overflow-x-hidden"
+          ? "flex flex-col w-full h-auto overflow-y-auto overflow-x-hidden"
           : "relative flex w-[300vw] h-screen overflow-hidden"
       }
     >
@@ -105,22 +92,21 @@ const HorizontalScroll: React.FC = () => {
         <section
           key={i}
           className={
-            'panel relative flex items-center justify-center ' +
-            (mobile ? "w-full h-[65vh]" : "w-screen h-screen")
+            "panel relative flex items-center justify-center " +
+            (mobile ? "w-full min-h-screen" : "w-screen h-screen")
           }
         >
-          <img
-            src={slide.image}
-            alt={slide.title}
-            className="absolute inset-0 object-cover w-full h-full"
-          />
-          <div className="relative z-10 flex flex-col items-center justify-center w-full h-full bg-black/40">
-            <h1
-              className={
-                "hero-title text-white text-3xl md:text-7xl font-extrabold tracking-tighter text-center drop-shadow-2xl transition-all duration-500" +
-                (mobile ? " opacity-100 !translate-y-0" : "")
-              }
-            >
+          <div className="absolute inset-0 w-full h-full">
+            <img
+              src={slide.image}
+              alt={slide.title}
+              className="object-cover w-full h-full"
+            />
+          </div>
+          <div className={`relative z-10 flex flex-col items-center justify-center w-full h-full ${
+    mobile ? "" : "bg-black/40"
+  }`}>
+            <h1 className="hero-title text-white text-3xl md:text-5xl font-extrabold tracking-tighter text-center drop-shadow-lg px-4 opacity-100">
               {slide.title}
             </h1>
           </div>
