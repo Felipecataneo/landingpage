@@ -27,7 +27,7 @@ export function NewButton({ className }: { className?: string }) {
 		setMode("query");
 		setCurrentFeedback("");
 		resetStreamingState();
-		router.push("/");
+		window.history.back()
 	};
 
 	return (
